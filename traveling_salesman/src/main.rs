@@ -12,17 +12,21 @@ mod population;
 use path::Path;
 use population::Population;
 use node::random_nodes;
+// To save distance history for python
+use std::fs::File;
+use std::io::prelude::*;
+use std::io::BufWriter;
 
 // Fixed parameters
 pub const TOP_FITTEST: usize = 5;
 pub const POPULATION_SIZE: usize = 10;
-pub const GENERATION_SIZE: usize = 1000;
+pub const GENERATION_SIZE: usize = 300;
 pub const MUTATION_RATE: f64 = 0.02;
 
 // Make the output text easier on the eyes
 fn print_seperators() {
-    println!("{}", "-".repeat(100));
-    println!("{}", "-".repeat(100));
+    println!("{}", "-".repeat(90));
+    println!("{}", "-".repeat(90));
 }
 
 // Here we go!
@@ -56,7 +60,8 @@ fn main() {
     let mut fittest = population.find_fittest_path().clone(); 
     // The nodes for every newfound, fittest path will be saved here
     let mut history = Vec::new();
-
+    // The fittest distance at every iteration of the loop 
+    let mut fittest_python = Vec::new(); 
     // We create a family tree with depth = GENERATION_SIZE
     for _ in 0..GENERATION_SIZE {
 
@@ -77,11 +82,22 @@ fn main() {
             history.push(fittest_nodes);
         }
 
+        // Save history to python
+        fittest_python.push(fittest.distance);
+
     }
 
+    // History of the best city paths
     println!("\nhistory:");
     for nodes in &history {
         println!("{:?}", nodes);
+    }
+
+    // Writing fittest_python to a file
+    let file = File::create("fittest_python.txt").expect("File creation error :(");
+    let mut buf_writer = BufWriter::new(file);
+    for distance in fittest_python {
+        writeln!(buf_writer, "{}", distance).expect("File writing error :(");
     }
 
     print_seperators();
