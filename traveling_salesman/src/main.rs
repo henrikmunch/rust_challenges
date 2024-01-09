@@ -20,7 +20,7 @@ use std::io::BufWriter;
 // Fixed parameters
 pub const TOP_FITTEST: usize = 5;
 pub const POPULATION_SIZE: usize = 10;
-pub const GENERATION_SIZE: usize = 300;
+pub const GENERATION_SIZE: usize = 2000;
 pub const MUTATION_RATE: f64 = 0.02;
 
 // Make the output text easier on the eyes
@@ -36,7 +36,7 @@ fn main() {
 
 
     // Number of nodes/cities/genes
-    let n = 50;
+    let n = 20;
     let nodes = random_nodes(n); 
 
             // Testing
@@ -63,7 +63,7 @@ fn main() {
     // The fittest distance at every iteration of the loop 
     let mut fittest_python = Vec::new(); 
     // We create a family tree with depth = GENERATION_SIZE
-    for _ in 0..GENERATION_SIZE {
+    for g in 0..GENERATION_SIZE {
 
         // Crossover + mutation
         population.evolve();
@@ -72,7 +72,7 @@ fn main() {
         // Update the fittest path if a better one is found
         if fittest_new.distance < fittest.distance {
             fittest = fittest_new.clone(); 
-            println!("fittest distance: {:.3}", fittest.distance);
+            println!("fittest distance = {:.3} for generation {}", fittest.distance, g);
 
             // Add the nodes for the new fittest path to the history
             let mut fittest_nodes = Vec::new();

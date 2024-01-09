@@ -9,9 +9,12 @@ def read_file(path):
 
 distances = read_file("fittest_python.txt")
 
-plt.plot(distances, marker=',')
-plt.title("History of fittest distances")
-plt.xlabel("Generation")
-plt.ylabel("Distance")
+plt.plot(distances, marker=',', linewidth=5)
+plt.title("History of smallest distances", fontsize=30)
+plt.xlabel("Generation", fontsize=30)
+plt.ylabel("Distance", fontsize=30)
+plt.xticks(fontsize=20)
+plt.yticks(fontsize=20)
 plt.grid(True)
 plt.show()
+plt.savefig('history.png')

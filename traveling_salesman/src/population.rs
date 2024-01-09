@@ -19,7 +19,7 @@ pub struct Population {
 // Implement functionalities for the type `Population`
 impl Population {
     
-    // Create a new population 
+    // Create a new population (this is an "associated function" because there is no &self)
     pub fn new(nodes: &Vec<Node>) -> Population {
         let mut paths = Vec::new();
 
